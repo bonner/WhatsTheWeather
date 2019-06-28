@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>What is the weather?</title>
+        
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		 
+		<!-- See configuration in WebMvConfig.java -->
+		<link th:href="/bootstrap/css/bootstrap.min.css"
+		          rel="stylesheet" media="screen"/>
+		           
+		<script th:src="/jquery/jquery.min.js"></script>  
+		<script th:src="/popper/popper.min.js"></script>  
+		<script th:src="/bootstrap/js/bootstrap.min.js"></script>  
+              
+    </head>
+    <body>
+        <form action="/weather" method="GET">
+            <label for="selectCity" >City</label>
+            <select name="city" id="selectCity">
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="London">London</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+        <hr />
+    </body>
+</html>
