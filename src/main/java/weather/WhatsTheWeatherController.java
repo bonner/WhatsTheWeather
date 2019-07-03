@@ -218,7 +218,7 @@ public class WhatsTheWeatherController {
             Model model) throws IOException {
         
         System.out.printf("CITY: %s\n", city);
-        System.out.printf("API KEY: %s\n", apiKey);   
+        //System.out.printf("API KEY: %s\n", apiKey);  commented out for security 
         
         if (cityCodeMap.containsKey(city)) {
             
