@@ -33,48 +33,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiParam;
 
-/*
-@GetMapping("/age")
-ResponseEntity<String> age(@RequestParam("yearOfBirth") int yearOfBirth) {
-    if (isInFuture(yearOfBirth)) {
-        return ResponseEntity.badRequest()
-            .body("Year of birth cannot be in the future");
-    }
- 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body("Your age is " + calculateAge(yearOfBirth));
-}
-
-
-@GetMapping("/mymethod")
-public ResponseEntity<Response> myMethod() {
-    ResponseEntity responseEntity = null;
-
-    if(string) {
-        responseEntity = new ResponseEntity(getString(), HttpStatus.OK);
-    } else {
-        responseEntity = new ResponseEntity(getHtml(), HttpStatus.OK);
-    }
-
-    return responseEntity;
-}
-
-public RestModel create(@RequestBody String data, HttpServletResponse response) {
-    // code ommitted..
-    response.setStatus(HttpServletResponse.SC_ACCEPTED);
-}
-
-todo tonight: 
-    * unit tests
-    * set http response codes for exceptions, debug exception variable not being set.
-    * clean up, refactor, way too much functionality in controller, how could I..
-    *     push conversions to view, or make open api specific bit its own thing! ie parsing the response, populate a more generic structure, ie a model.
-    * documentation, swagger and source code
-    * readme
-    * deploy on heroku and aws
- */
-
-
 /**
  * Controller for the WhatsTheWeather application.
  * 
