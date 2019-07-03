@@ -26,8 +26,8 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo metaData() {
-        ApiInfo apiInfo = new ApiInfo("whatsTheWeather Application's REST API",
-                "Below are the list of REST API references for the whatsTheWeather Application",
+        ApiInfo apiInfo = new ApiInfo("whatsTheWeather Application's API",
+                "Below are the list of API references for the whatsTheWeather Application",
                 "1.0", "Terms of service",
                 new Contact("Michael-Bonner", "https://github.com/bonner",
                         "bonner.mike@gmail.com"),
