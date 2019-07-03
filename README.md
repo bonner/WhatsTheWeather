@@ -4,6 +4,8 @@ This is a simple spring boot, bootstrap, thymeleaf web application that shows yo
 It uses the open weather map API to get the current weather conditions, temperature, and time of sunrise and 
 sunset in the user selected city.
 
+The app is currently up and running at https://whats-the-current-weather.herokuapp.com/.
+
 ## prerequisites: 
 * Java 1.8 or above
 * Latest version of Maven
