@@ -3,6 +3,8 @@
 
 server:
     port: 8080
+    error:
+        include-stacktrace: always
 
 openWeatherMapAPIKey: ef2caccba4bb72d2c7b2607a0b0ad50b
 
@@ -11,6 +13,8 @@ spring:
         name: whatsTheWeatherApp 
     resources:
         static-locations: file:/var/www/static,classpath:static
+    thymeleaf:
+        cache: false
 
 #ribbon:
 #  ServerListRefreshInterval: 1000

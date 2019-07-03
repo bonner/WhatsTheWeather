@@ -32,5 +32,6 @@ $ docker run -p 8081:8080 -t weather/whats-the-weather
 * Create cache of mappings between city names and ids, if not in cache, use get weather by city, else get by id.
 * Polling/retry back off logic for getting from the openmap api, handle/support for unavailable service
 * Remove dependence in controller code on response schema
+* Make a modal for the response from the form, single page design
 
 contact bonner.mike@gmail.com for more details and queries. 

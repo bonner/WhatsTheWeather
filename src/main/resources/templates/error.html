@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">		
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />  
+		<title>WhatsTheWeather Error </title> 
+	</head>
+	<body>
+		<h1 class="text-danger">WhatsTheWeather Error</h1>
+		<div class="container-fluid">
+			<dl class="dl-horizontal">
+				<dt>Date</dt>
+				<dd><span th:text="${timestamp}" /></dd>
+				<dt>Path</dt>
+				<dd><span th:text="${path}" /></dd>
+				<dt>Error</dt>
+				<dd><span th:text="${error}" /></dd>
+				<dt>Status</dt>
+				<dd><span th:text="${status}" /></dd>
+				<dt>Message</dt>
+				<dd><span th:text="${message}" /></dd>
+				<dt>Exception</dt>
+				<dd><span th:text="${exception}" /></dd>
+				<dt>Trace</dt>
+				<dd><pre th:text="${trace}"/></dd>
+			</dl>
+		</div>
+	</body>
+</html>
