@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.TimeZone;
 //import java.util.SimpleTimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -135,11 +137,29 @@ public class WhatsTheWeatherController {
         model.addAttribute("sunset", sunsetStr);
         model.addAttribute("time_zone", tz.getID());        
     }
+    
+    /**
+     * 
+     * @param e
+     * @param status
+     * @param request
+     * @param model
+     */
+    private void populateExceptionModel(Exception e, HttpStatus status, HttpServletRequest request, Model model) {
+        model.addAttribute("exception", e);
+        model.addAttribute("date", new Date());
+        model.addAttribute("path", request.getRequestURL());
+        model.addAttribute("status", status.value()); // http status code... 
+        model.addAttribute("error", status.getReasonPhrase()); // "Internal Server Error", name of the code, can probably get from http status
+        model.addAttribute("message", e.getMessage());
+        model.addAttribute("trace", e.getStackTrace()); // print to a stream or something?!        
+    }
  
     /**
      * Simple method to render the input form for the WhatsTheWeather application.
      * 
      * @param model The model to populate (contains the list of supported cities).
+     * @param request 
      * @return The name of the template to render.
      */
     @ApiOperation(value = "Get city input form for getting the weather for the selected city", 
@@ -149,7 +169,7 @@ public class WhatsTheWeatherController {
             @ApiResponse(code = 500, message = "An exception occurred.")}
     )
     @GetMapping(path = "/", produces = "text/html")
-    public String home(Model model) {
+    public String home(Model model, HttpServletRequest request) {
     	model.addAttribute("cities", cityCodeMap.keySet());
         return "index";
     }
@@ -161,6 +181,7 @@ public class WhatsTheWeatherController {
      * 
      * @param city The user input city, must be one of cityCodeMap.keyValues().
      * @param model The model to populate
+     * @param request 
      * @return The name of the thymeleaf template to render.
      * 
      * @throws IOException Raised by JsonNode instances when the response does not meet the expected schema.
@@ -171,9 +192,10 @@ public class WhatsTheWeatherController {
             @ApiResponse(code = 500, message = "An exception occurred.")}
     )
     @GetMapping(path = "/weather", produces = "text/html")
-    public String whatsTheWeather(
+    public ResponseEntity<String> whatsTheWeather(
             @ApiParam(defaultValue = "London", allowableValues = "London, Hong Kong, Vancouver") @RequestParam(name = "city", required = true) String city,
-            Model model) throws IOException {
+            Model model, 
+            HttpServletRequest request) throws IOException {
         
         System.out.printf("CITY: %s\n", city);
         //System.out.printf("API KEY: %s\n", apiKey);  commented out for security 
@@ -184,10 +206,20 @@ public class WhatsTheWeatherController {
             String url = String.format("%s?appid=%s&id=%s", resourceUrl, apiKey, cityCodeMap.get(city));
             System.out.printf("URL: %s\n", url);
             
-            ResponseEntity<String> response
-              = restTemplate.getForEntity(url, String.class);
+            ResponseEntity<String> response = null;
+            try {
+                response= restTemplate.getForEntity(url, String.class);
+                System.out.printf("AFTER GETTING RESPONSE: %s\n", response);
+            }
+            catch (Exception e) {
+                populateExceptionModel(e, response. getStatusCode(), request, model);
+                //return ResponseEntity.badRequest().body("error"); 
+                return new ResponseEntity<String>("error", response. getStatusCode());                
+            }
+            
             
             HttpStatus status = response.getStatusCode();
+            System.out.printf("STATUS: %s\n", status);
             if (status.value() / 100 == 2) {
 
                 try {
@@ -198,11 +230,17 @@ public class WhatsTheWeatherController {
                     model.addAttribute("message", "");
                     System.out.println(
                             "One or more of the expected values could not be parsed into the expected data type.");
-                    throw e;
+                    //throw e;
+                    populateExceptionModel(e, HttpStatus.NOT_FOUND, request, model);
+                    //return ResponseEntity.badRequest().body("error");  
+                    return new ResponseEntity<String>("error", HttpStatus.NOT_FOUND);
                 }
                 catch (IOException e) { // exceptions from parsing json response
                 	System.out.println("One of the values in the expected schema was not present.");
-                	throw e;
+                	//throw e;
+                    populateExceptionModel(e, HttpStatus.NOT_FOUND, request, model);
+                    //return ResponseEntity.badRequest().body("error"); 
+                    return new ResponseEntity<String>("error", HttpStatus.NOT_FOUND);
                 }
             }
             else {
@@ -210,14 +248,27 @@ public class WhatsTheWeatherController {
             	        "A non-200 response was received from %s, status: %s body: %s", 
             	        resourceUrl);
             	System.out.println(message);
-            	throw new HttpClientErrorException(status, message);
+            	
+            	//throw new HttpClientErrorException(status, message);
+            	
+            	//populate exception model!
+            	populateExceptionModel(new HttpClientErrorException(status, message), status, request, 
+            	        model);
+            	
+                //return ResponseEntity.badRequest().body("error"); 
+                return new ResponseEntity<String>("error", status);
             }
         }
         else {
         	String message = String.format("Unsupported city, must be one of: %s", 
         	        Arrays.toString(cityCodeMap.keySet().toArray()));
-        	throw new IllegalArgumentException(message);
+        	System.out.println(message);
+        	//throw new IllegalArgumentException(message);
+        	populateExceptionModel(new IllegalArgumentException(message), HttpStatus.BAD_REQUEST, request, model);
+        	//return ResponseEntity.badRequest().body("error");
+        	return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
         }
-        return "weather";
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("weather");        
     }
 }
