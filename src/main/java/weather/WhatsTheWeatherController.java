@@ -88,8 +88,10 @@ public class WhatsTheWeatherController {
     static {
         cityCodeMap.put("London", "2643741");
         cityCodeMap.put("Hong Kong", "1819729");
+        cityCodeMap.put("Vancouver", "6173331");
         timeZoneIds.put("London", "Europe/London");
         timeZoneIds.put("Hong Kong", "Asia/Hong_Kong");
+        timeZoneIds.put("Vancouver", "America/Vancouver");
     }  
     
     /**
@@ -188,7 +190,7 @@ public class WhatsTheWeatherController {
             @ApiResponse(code = 500, message = "An exception occurred.")})
     @GetMapping(path = "/weather")
     public String whatsTheWeather(
-            @ApiParam(defaultValue = "london", allowableValues = "london, hongkong") @RequestParam(name = "city", required = true) String city,
+            @ApiParam(defaultValue = "London", allowableValues = "London, Hong Kong, Vancouver") @RequestParam(name = "city", required = true) String city,
             Model model) throws IOException {
         
         System.out.printf("CITY: %s\n", city);
