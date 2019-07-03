@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
-import java.util.SimpleTimeZone;
+//import java.util.SimpleTimeZone;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -76,6 +74,13 @@ todo tonight:
     * deploy on heroku and aws
  */
 
+
+/**
+ * Controller for the WhatsTheWeather application.
+ * 
+ * @author Michael Bonner
+ * @since 20190626
+ */
 @Controller
 public class WhatsTheWeatherController {
 
@@ -173,22 +178,41 @@ public class WhatsTheWeatherController {
         model.addAttribute("time_zone", tz.getID());        
     }
  
+    /**
+     * Simple method to render the input form for the WhatsTheWeather application.
+     * 
+     * @param model The model to populate (contains the list of supported cities).
+     * @return The name of the template to render.
+     */
     @ApiOperation(value = "Get city input form for getting the weather for the selected city", 
             response = String.class)
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Successfully obtained the html for the city input form."),
-            @ApiResponse(code = 500, message = "An exception occurred.")})
-    @GetMapping(path = "/")
-    String home(Model model) {
+            @ApiResponse(code = 500, message = "An exception occurred.")}
+    )
+    @GetMapping(path = "/", produces = "text/html")
+    public String home(Model model) {
     	model.addAttribute("cities", cityCodeMap.keySet());
         return "index";
     }
     
+    /**
+     * Populates the input model instance with the expected values from the open weather map api response.
+     * Raises or passes exceptions when the response is not received, the schema is different than expected, 
+     * or the values in the response cannot be parsed into the expected types.
+     * 
+     * @param city The user input city, must be one of cityCodeMap.keyValues().
+     * @param model The model to populate
+     * @return The name of the thymeleaf template to render.
+     * 
+     * @throws IOException Raised by JsonNode instances when the response does not meet the expected schema.
+     */
     @ApiOperation(value = "Get the weather for the requested city", response = String.class)
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Successfully obtained the weather for the requested city."),
-            @ApiResponse(code = 500, message = "An exception occurred.")})
-    @GetMapping(path = "/weather")
+            @ApiResponse(code = 500, message = "An exception occurred.")}
+    )
+    @GetMapping(path = "/weather", produces = "text/html")
     public String whatsTheWeather(
             @ApiParam(defaultValue = "London", allowableValues = "London, Hong Kong, Vancouver") @RequestParam(name = "city", required = true) String city,
             Model model) throws IOException {

@@ -33,16 +33,19 @@ Follow the steps below in sequence.
 	Here 8081 is the Docker port and 8080 is the Tomcat port where is the application is running. 
 	
 ## Documenation
+
 	Javadoc documenation for the classes within the app is generated when running mvnw package
 	Swagger documentation can be viewed at [swagger](http://localhost:8080/swagger-ui.html#!)
 		
 
 ## Adding another city
+
     In order to add another city to the application you need to find the openweather map id for the city (or the closest city) and the timezone identifier for your city.  
     You can find the list of ope weather map city ids [here](http://bulk.openweathermap.org/sample/city.list.json.gz) and the timezone identifiers [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).  
     Once you have these values you can add them to the -cityCodeMap- and -timeZoneIds- maps within the WhatsTheWeatherController class. 
 
 ## Troubleshooting
+
 	This application has a hard coded expectation on the response from open weather map, if it changes, this 
 	applicaiton will likely break and generate an exception.
 	In this case you will be directed to an error page with details of the exception.
@@ -50,11 +53,14 @@ Follow the steps below in sequence.
 	weather data will be denied with a 439 response, you will see this on the error page, details can be found [here](https://openweathermap.org/appid).
 
 ### TODO:
+	* Set http response codes for exceptions (NOT 500!)
 	* Create cache of mappings between city names and ids, if not in cache, use get weather by city, else get by id.
 	* Polling/retry back off logic for getting from the openmap api, handle/support for unavailable service
 	* Remove dependence in controller code on response schema
 	* Make a modal for the response from the form, single page design
 	* Use proper logging rather than System.out.
 	* Support for input by lat, long or UTC coordinates.
+	* AWS deployment
+	* Support for day light savings time
 
 contact bonner.mike@gmail.com for more details and queries. 
