@@ -32,7 +32,7 @@ Follow the steps below in sequence.
 - Navigate to http://localhost:8081
 	Here 8081 is the Docker port and 8080 is the Tomcat port where is the application is running. 
 	
-## Documenation
+## Documentation
 
 	Javadoc documenation for the classes within the app is generated when running mvnw package
 	Swagger documentation can be viewed at [swagger](http://localhost:8080/swagger-ui.html#!)
