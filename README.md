@@ -72,5 +72,6 @@ weather data will be denied with a *439* response, you will see this on the erro
 * Support for input by lat, long or UTC coordinates.
 * AWS deployment
 * Support for day light savings time
+* Move css in head to a static file.
 
 contact bonner.mike@gmail.com for more details and queries. 

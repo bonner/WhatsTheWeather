@@ -1,35 +1,49 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">         
-		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
-		<title>Current weather for ${cityName}.</title>
-	</head>
-	<body>
-	    <h1><span th:text="${city_name}" /></small></h1> 
-	    <h2>Current Weather Conditions</h2> 
-		<h2><span th:text="${date}" /></small></h2>
-		<div class="container-fluid">
-			<dl class="dl-horizontal">
-			
-			  <dt>Description</dt>
-			  <dd><span th:text="${weather_description}" /></dd>
-			  
-			  <dt>Temperature (C)</dt>
-			  <dd><span th:text="${temperature_celsius}" /></dd>
-			  
-			  <dt>Temperature (F)</dt>
-			  <dd><span th:text="${temperature_fahrenheit}" /></dd>	
-	
-	          <dt>Sunrise</dt>
-			  <dd> <span th:text="${sunrise}" /> <span th:text="${time_zone}" /></dd>	
-			  
-	          <dt>Sunset</dt>
-			  <dd><span th:text="${sunset}" /> <span th:text="${time_zone}" /></dd>			  		  
-			  	  
-			</dl>	 
-	    </div> 	
-	</body>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">         
+        <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
+        <style>
+            body {
+                padding: 15px;
+            }
+        </style>
+        <title>Current weather for ${cityName}.</title>
+    </head>
+    <body>
+    
+        <div class="jumbotron">
+          
+            <h1 class="display-4"><span th:text="${city_name}" /></small></h1> 
+            <h2 class="display-4">Current Weather Conditions</h2> 
+            <h2 class="display-4"><span th:text="${date}" /></small></h2>
+        
+            <hr class="my-4">
 
+            <div class="container-fluid">
+                <dl class="dl-horizontal">
+                
+                  <dt>Description</dt>
+                  <dd><span th:text="${weather_description}" /></dd>
+                  
+                  <dt>Temperature (C)</dt>
+                  <dd><span th:text="${temperature_celsius}" /></dd>
+                  
+                  <dt>Temperature (F)</dt>
+                  <dd><span th:text="${temperature_fahrenheit}" /></dd>    
+        
+                  <dt>Sunrise</dt>
+                  <dd> <span th:text="${sunrise}" /> <span th:text="${time_zone}" /></dd>    
+                  
+                  <dt>Sunset</dt>
+                  <dd><span th:text="${sunset}" /> <span th:text="${time_zone}" /></dd>                        
+                        
+                </dl>     
+            </div> 
+        </div>
+        <script th:src="@{webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{webjars/popper.js/1.14.3/popper.min.js}"></script>
+        <script th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>         
+    </body>
 </html>

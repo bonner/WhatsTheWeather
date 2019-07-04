@@ -1,23 +1,43 @@
 <html>
     <head>    
-		<meta name="viewport" content="width=device-width, initial-scale=1">		
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
         <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />  
-        <title>What is the weather?</title>  
+        <style>
+            body {
+                padding: 15px;
+            }
+        </style>
+        <title>What is the weather?</title>
     </head>
     <body>
-        <div class="container-fluid">
-            <p>Get the current weather conditions for the city you select.</p>
-	        <form action="/weather" method="GET" class="form-horizontal">
-				<div class="form-group">
-			        <label for="selectCity" >City</label>
-			        <select name="city" class="form-control" id="selectCity" >                  
-				        <option th:each="city: ${cities}" th:text="${city}" />				            
-			        </select>
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>  
-	        </form>
-	        <br />
-	        <a href="/swagger-ui.html" target="_blank">swagger doc</a>
+        <div class="jumbotron jumbotron-fluid">
+        
+            <div class="alert alert-secondary" role="alert">
+                <h1 class="display-4">Get the weather</h1>
+            </div>        
+            
+            <div class="container-fluid">
+                <form action="/weather" method="GET" class="form-horizontal">
+                    <div class="form-group">
+                           <label for="selectCity" >City</label>
+                           <select name="city" class="form-control" id="selectCity" >                  
+                            <option th:each="city: ${cities}" th:text="${city}" />                            
+                           </select>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>  
+                 </form>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="container-fluid">
+                <a href="/swagger-ui.html" class="badge badge-primary" target="_blank">API Doc</a>
+            </div>
+            
         </div>
+        <script th:src="@{webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{webjars/popper.js/1.14.3/popper.min.js}"></script>
+        <script th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>      
     </body>
+
 </html>

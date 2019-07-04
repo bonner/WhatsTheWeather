@@ -150,7 +150,7 @@ public class WhatsTheWeatherController {
     )
     @GetMapping(path = "/", produces = "text/html")
     public String home(Model model) {
-    	model.addAttribute("cities", cityCodeMap.keySet());
+        model.addAttribute("cities", cityCodeMap.keySet());
         return "index";
     }
     
@@ -175,17 +175,13 @@ public class WhatsTheWeatherController {
             @ApiParam(defaultValue = "London", allowableValues = "London, Hong Kong, Vancouver") @RequestParam(name = "city", required = true) String city,
             Model model) throws IOException {
         
-        System.out.printf("CITY: %s\n", city);
-        //System.out.printf("API KEY: %s\n", apiKey);  commented out for security 
-        
         if (cityCodeMap.containsKey(city)) {
             
             RestTemplate restTemplate = new RestTemplate();
             String url = String.format("%s?appid=%s&id=%s", resourceUrl, apiKey, cityCodeMap.get(city));
             System.out.printf("URL: %s\n", url);
             
-            ResponseEntity<String> response
-              = restTemplate.getForEntity(url, String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
             
             HttpStatus status = response.getStatusCode();
             if (status.value() / 100 == 2) {
@@ -201,22 +197,22 @@ public class WhatsTheWeatherController {
                     throw e;
                 }
                 catch (IOException e) { // exceptions from parsing json response
-                	System.out.println("One of the values in the expected schema was not present.");
-                	throw e;
+                    System.out.println("One of the values in the expected schema was not present.");
+                    throw e;
                 }
             }
             else {
-            	String message = String.format(
-            	        "A non-200 response was received from %s, status: %s body: %s", 
-            	        resourceUrl);
-            	System.out.println(message);
-            	throw new HttpClientErrorException(status, message);
+                String message = String.format(
+                        "A non-200 response was received from %s, status: %s body: %s", 
+                        resourceUrl);
+                System.out.println(message);
+                throw new HttpClientErrorException(status, message);
             }
         }
         else {
-        	String message = String.format("Unsupported city, must be one of: %s", 
-        	        Arrays.toString(cityCodeMap.keySet().toArray()));
-        	throw new IllegalArgumentException(message);
+            String message = String.format("Unsupported city, must be one of: %s", 
+                    Arrays.toString(cityCodeMap.keySet().toArray()));
+            throw new IllegalArgumentException(message);
         }
         return "weather";
     }
